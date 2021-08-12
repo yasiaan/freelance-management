@@ -1,0 +1,188 @@
+<div class="container" id="main-container">
+    <div class="card text-white text-center bg-success mb-3">
+        <a class="nav-link" (click)="onOpenModal(null, 'add')"><strong>Add Project</strong> </a>
+    </div>
+    <!-- View Projects -->
+    <div class="row">
+        <div *ngFor="let project of projects" class="col-md-6 mt-5 col-xl-12">
+            <div class="card m-b-30">
+                <div class="card-body row">
+                    <div class="col-2">
+                        <!-- <a href=""><img src="#" alt="" class="img-fluid rounded-circle w-60"></a> -->
+                    </div>
+                    <div class="col-8 card-title align-self-center mb-0">
+                        <h5>{{project?.title}}</h5>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa fa-envelope float-right"></i>{{project?.description}}</li>
+                </ul>
+                <div class="card-body">
+                    <div class="float-right btn-group btn-group-sm">
+                        <a (click)="onOpenModal(project, 'edit')" class="btn btn-success tooltips" data-placement="top"
+                            data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                        <a (click)="onOpenModal(project, 'delete')" class="btn btn-danger tooltips" data-placement="top"
+                            data-original-title="Delete"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Project -->
+    <div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addprojectModalLabel">Add Project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #addForm="ngForm" (ngSubmit)="onAddProject(addForm)">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" ngModel name="title" class="form-control" id="title" placeholder="Title"
+                                autofocus required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text" ngModel name="description" class="form-control" id="description"
+                                placeholder="Description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectCode">Project Code</label>
+                            <input type="text" ngModel name="projectCode" class="form-control" id="projectCode"
+                                placeholder="Project Code" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="freelancer">Freelancer</label>
+                            <select ngModel name="freelancer" id="freelancer" aria-label="Select freelancer">
+                                <option *ngFor="let freelancer of freelancers" value="{{freelancer.id}}">
+                                    {{freelancer.nom}} {{freelancer.prenom}} | {{freelancer.skills}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employer">Employer</label>
+                            <select ngModel name="employer" id="employer" aria-label="Select employer">
+                                <option *ngFor="let employer of employers" value="{{employer.id}}">
+                                    {{employer.nom}} {{employer.prenom}} | {{employer.phone}}</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="add-project-form" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button [disabled]="addForm.invalid" type="submit" class="btn btn-success">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit Project -->
+    <div class="modal fade" id="updateProjectModal" tabindex="-1" role="dialog" aria-labelledby="employeeEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateprojectModalLabel">Update Project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #editForm="ngForm">
+                        <input type="hidden" ngModel="{{editProject?.id}}" name="id" class="form-control" id="id"
+                            placeholder="id">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" ngModel="{{editProject?.title}}" name="title" class="form-control"
+                                id="title" placeholder="Title" autofocus required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text" ngModel="{{editProject?.description}}" name="description"
+                                class="form-control" id="description" placeholder="Description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectCode">Project Code</label>
+                            <input type="text" ngModel="{{editProject?.projectCode}}" name="projectCode"
+                                class="form-control" id="projectCode" placeholder="Project Code" required>
+                        </div>
+
+                        <!-- <div class="form-group">
+                            <label for="freelancer">Freelancer</label>
+                            <select ngModel name="freelancer" id="freelancer" aria-label="Select freelancer">
+                                <span *ngFor="let freelancer of freelancers">
+                                    <span *ngIf="freelancer == editProject?.freelancer">
+                                        <option value="{{freelancer.id}}">
+                                            {{freelancer.nom}} {{freelancer.prenom}} | {{freelancer.skills}}
+                                        </option>
+                                    </span>
+                                    <span *ngIf="freelancer != editProject?.freelancer">
+                                        <option value="{{freelancer.id}}">
+                                            {{freelancer.nom}} {{freelancer.prenom}} | {{freelancer.skills}}
+                                        </option>
+                                    </span>
+                                </span>
+                            </select>
+                        </div> -->
+
+                        <!-- <div class="form-group">
+                            <label for="employer">Employer</label>
+                            <select ngModel name="employer" id="employer" aria-label="Select employer">
+                                <option *ngFor="let employer of employers" value="{{employer.id}}">
+                                    {{employer.nom}} {{employer.prenom}} | {{employer.phone}}</option>
+                            </select>
+                        </div> -->
+
+                        <div class="modal-footer">
+                            <button type="button" id="edit-project-form-close" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button (click)="onUpdateProject(editForm.value, editForm)" class="btn btn-success">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteProjectModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModelLabel">Delete Project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete project ?</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button (click)="onDeleteProject(deleteProject?.id)" class="btn btn-danger"
+                            data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification for no projects -->
+    <div *ngIf="projects?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+        <div class="alert alert-secondary" role="alert">
+            <h4 class="alert-heading">NO PROJECTS!</h4>
+            <p>No Projects were found.</p>
+        </div>
+    </div>
+</div>

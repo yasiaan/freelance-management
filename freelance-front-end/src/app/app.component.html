@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <a routerLink="#" class="navbar-brand" style="color:white;">Freelance World</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+    aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li *ngIf="loginService.isUserLoggedIn()" class="nav-item active">
+        <a routerLink="/project" class="nav-link badge text-white rounded-pill bg-success">Projects</a>
+      </li>
+      <li *ngIf="loginService.isUserLoggedIn()" class="nav-item active">
+        <a routerLink="/employer" class="nav-link badge text-white rounded-pill bg-primary">Employers</a>
+      </li>
+      <li *ngIf="loginService.isUserLoggedIn()" class="nav-item active">
+        <a routerLink="/freelancer" class="nav-link badge text-white rounded-pill bg-info">Freelancers</a>
+      </li>
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <!-- <input type="search" ngModel name="key" id="searchName" class="form-control mr-sm-2"
+      placeholder="Search employees..." required> -->
+      <ul>
+        <li *ngIf="!loginService.isUserLoggedIn()" class="nav-item active">
+          <a routerLink="/login" class="nav-link badge rounded-pill bg-info">Sign In</a>
+        </li>
+        <li *ngIf="loginService.isUserLoggedIn()" class="nav-item active">
+          <a routerLink="/logout" class="nav-link badge rounded-pill bg-danger">Log Out</a>
+        </li>
+      </ul>
+    </form>
+  </div>
+</nav>
+
+<!-- <div *ngIf="loginService.isUserLoggedIn()" class="justify-content-center align-items-center">
+  <div class="card text-white text-center bg-primary m-5">
+    <a class="nav-link" routerLink="/project"><strong>Projects</strong> </a>
+  </div>
+  <div class="card text-white text-center bg-info m-5">
+    <a class="nav-link" routerLink="/employer"><strong>Employers</strong> </a>
+  </div>
+  <div class="card text-white text-center bg-secondary m-5">
+    <a class="nav-link" routerLink="/freelancer"><strong>Freelancers</strong> </a>
+  </div>
+</div> -->
+
+<router-outlet></router-outlet>

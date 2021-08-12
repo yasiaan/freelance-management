@@ -1,0 +1,188 @@
+<div class="container" id="main-container">
+    <div class="card text-white text-center bg-info mb-3">
+        <a class="nav-link" (click)="onOpenModal(null, 'add')"><strong>Add Freelancer</strong> </a>
+    </div>
+    <!-- View Freelancers -->
+    <div class="row">
+        <div *ngFor="let freelancer of freelancers" class="col-md-6 col-xl-4">
+            <div class="card m-b-30">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <a href=""><img src="{{freelancer?.imgurl}}" alt="" class="img-fluid rounded-circle w-60"></a>
+                    </div>
+                    <div class="col-6 card-title align-self-center mb-0">
+                        <h5>{{freelancer?.nom}} {{freelancer?.prenom}}</h5>
+                        <!-- <p class="m-0">Available bids : {{freelancer?.bids}}</p> -->
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><span class="badge bg-info"><i class="fa fa-envelope"></i></span> :
+                        {{freelancer?.email}}</li>
+                    <li class="list-group-item"><span class="badge bg-info"><i class="fa fa-tasks"></i></span> :
+                        {{freelancer?.skills}}</li>
+                    <li class="list-group-item"><span class="badge bg-info"><i class="fa fa-phone"></i></span> :
+                        {{freelancer?.phone}}
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <div class="float-right btn-group btn-group-sm">
+                        <a (click)="onOpenModal(freelancer, 'edit')" class="btn btn-info tooltips" data-placement="top"
+                            data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                        <a (click)="onOpenModal(freelancer, 'delete')" class="btn btn-danger tooltips"
+                            data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Freelancer -->
+    <div class="modal fade" id="addFreelancerModal" tabindex="-1" role="dialog"
+        aria-labelledby="addFreelancerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEmployeeModalLabel">Add Freelancer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #addForm="ngForm" (ngSubmit)="onAddFreelancer(addForm)">
+                        <div class="form-group">
+                            <label for="nom">Last Name</label>
+                            <input type="text" ngModel name="nom" class="form-control" id="nom" placeholder="Last Name"
+                                autofocus required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">First Name</label>
+                            <input type="text" ngModel name="prenom" class="form-control" id="prenom"
+                                placeholder="First Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" ngModel name="email" class="form-control" id="email" placeholder="Email"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" ngModel name="phone" class="form-control" id="phone" placeholder="Phone"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="freelancerCode">Freelancer Code</label>
+                            <input type="text" ngModel name="freelancerCode" class="form-control" id="freelancerCode"
+                                placeholder="Freelancer Code" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="imgurl">Image URL</label>
+                            <input type="text" ngModel name="imgurl" class="form-control" id="imgurl"
+                                placeholder="Image URL" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Status</label>
+                            <input type="text" ngModel name="skills" class="form-control" id="skills"
+                                placeholder="Ex : Java Developer" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="add-freelancer-form" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button [disabled]="addForm.invalid" type="submit" class="btn btn-info">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="updateFreelancerModal" tabindex="-1" role="dialog"
+        aria-labelledby="employeeEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateEmployeeModalLabel">Edit Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #editForm="ngForm">
+                        <div class="form-group">
+                            <label for="nom">Last Name</label>
+                            <input type="text" ngModel="{{editFreelancer?.nom}}" name="nom" class="form-control"
+                                autofocus id="nom" aria-describedby="emailHelp" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">First Name</label>
+                            <input type="text" ngModel="{{editFreelancer?.prenom}}" name="prenom" class="form-control"
+                                id="prenom" aria-describedby="emailHelp" placeholder="First Name">
+                        </div>
+                        <input type="hidden" ngModel="{{editFreelancer?.id}}" name="id" class="form-control" id="id"
+                            placeholder="Email">
+                        <input type="hidden" ngModel="{{editFreelancer?.freelancerCode}}" name="freelancerCode"
+                            class="form-control" id="freelancerCode" placeholder="Email">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" ngModel="{{editFreelancer?.email}}" name="email" class="form-control"
+                                id="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" ngModel="{{editFreelancer?.phone}}" name="phone" class="form-control"
+                                id="phone" name="phone" placeholder="Phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Image URL</label>
+                            <input type="text" ngModel="{{editFreelancer?.imgurl}}" name="imgurl" class="form-control"
+                                id="imgurl" placeholder="Image URL">
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Status</label>
+                            <input type="text" ngModel="{{editFreelancer?.skills}}" name="skills" class="form-control"
+                                id="skills" placeholder="Ex : Java Developer" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                            <button (click)="onUpdateFreelancer(editForm.value)" data-dismiss="modal"
+                                class="btn btn-info">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteFreelancerModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModelLabel">Delete Freelancer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete freelancer ?</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button (click)="onDeleteFreelancer(deleteFreelancer?.id)" class="btn btn-danger"
+                            data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification for no employees -->
+    <div *ngIf="freelancers?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">NO FREELANCERS!</h4>
+            <p>No Freelancers were found.</p>
+        </div>
+    </div>
+</div>
